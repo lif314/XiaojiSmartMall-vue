@@ -65,11 +65,6 @@ Vue.use(VueRouter)
 const router = new VueRouter({
     // 配置路由
     routes: [
-        {
-            // test
-            path: '/test',
-            component: ()=>import('@/pages/Test')
-        },
         // 重定向：访问/立马跳转到首页
         {
             path: '/',

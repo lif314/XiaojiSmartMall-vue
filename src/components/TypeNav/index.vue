@@ -99,17 +99,13 @@ export default {
       // 获取当前触发事件的节点 event
       let element = event.target;
       // 节点有一个dataset属性，可以获取节点的自定义属性
-      let { categoryname, category1id, category2id, category3id } =
+      let { categoryname, category3id } =
         element.dataset;
       if (categoryname) {
         let location = { name: "search" };
-        let query = { categoryName: categoryname };
-        if (category1id) {
-          query.category1Id = category1id;
-        } else if (category2id) {
-          query.category2Id = category2id;
-        } else {
-          query.category3Id = category3id;
+        let query = { };
+        if (category3id) {
+          query.catalog3Id = category3id;
         }
         // 发送，路由跳转 -- 只有query参数
         location.query = query;

@@ -56,19 +56,19 @@
           <!-- 商品列表 -->
           <div class="goods-list">
             <ul class="yui3-g">
-              <li class="yui3-u-1-5" v-for="goods in goodsList" :key="goods.id">
+              <li class="yui3-u-1-5" v-for="goods in goodsList" :key="goods.skuId">
                 <div class="list-wrap">
                   <div class="p-img">
                     <!-- 跳转到商品详情页 -->
                     <!-- 图片懒加载 -->
-                    <router-link :to="`/detail/${goods.id}`">
-                      <img v-lazy="goods.defaultImg"
+                    <router-link :to="`/detail/${goods.skuId}`">
+                      <img v-lazy="goods.skuImg"
                     /></router-link>
                   </div>
                   <div class="price">
                     <strong>
                       <em>¥ </em>
-                      <i>{{ goods.price }}</i>
+                      <i>{{ goods.skuPrice }}</i>
                     </strong>
                   </div>
                   <div class="attr">
@@ -76,7 +76,7 @@
                       target="_blank"
                       href="item.html"
                       title="促销信息，下单即赠送三个月CIBN视频会员卡！【小米电视新品4A 58 火爆预约中】"
-                      >{{ goods.title }}</a
+                      >{{ goods.skuTitle }}</a
                     >
                   </div>
                   <div class="commit">
@@ -98,7 +98,7 @@
             </ul>
           </div>
           <!-- 分页器 -->
-          <Pagination :pageNo="searchParams.pageNo" :pageSize="searchParams.pageSize" :total="total" :continues="5" @getPageNo='getPageNo'/>
+          <Pagination :pageNo="searchParams.pageNum" :pageSize="searchParams.pageSize" :total="total" :continues="5" @getPageNo='getPageNo'/>
         </div>
       </div>
     </div>
@@ -118,31 +118,46 @@ export default {
     return {
       // 查询参数
       searchParams: {
-        // 分类id
-        category1Id: "",
-        category2Id: "",
-        category3Id: "",
-        // 分类名字
-        categoryName: "",
         // 搜索关键词
         keyword: "",
+        // 三级分类id 数字
+        catalog3Id: null,
         // 排序方式
-        order: "1:desc",  // 1表示综合  降序  2 表示价格
-        // 分页参数
-        pageNo: 1,
-        pageSize: 10,
-        // 属性查询
-        props: [], // 商品属性的数组: ["属性ID:属性值:属性名"]示例: ["2:6.0～6.24英寸:屏幕尺寸"]
-        // 品牌信息
-        trademark: "",
+        // sort=saleCount_asc  sort=hotScore_asc  sort=skuPrice_asc
+        // sort=saleCount_desc  sort=hotScore_desc sort=skuPrice_desc
+        sort: "",
+        // 是否有货，默认显示有货
+        // asStock=0/1【有货】
+        hasStock: 1,
+        // 商品价格区间
+        // skuPrice=0_500/500_/_500【价格区间】
+        skuPrice: "",
+        // 品牌id
+        brandId: [],
+        // 三级分类id+属性值
+        // attrs=1_白色:蓝色&attrs=2_2寸:5寸【属性可多选，值也可多选】
+        attrs: [],
+        // 分页查询页码
+        pageNum: 1,
+        // 排序方式
+        // order: "1:desc",  // 1表示综合  降序  2 表示价格
+        // // 分页参数
+        // pageNo: 1,
+        // pageSize: 10,
+        // // 属性查询
+        // props: [], // 商品属性的数组: ["属性ID:属性值:属性名"]示例: ["2:6.0～6.24英寸:屏幕尺寸"]
+        // // 品牌信息
+        // trademark: "",
       },
     };
   },
   beforeMount() {
     // 发请求之前获取参数数据
     // ES6合并对象
+    console.log(this.$route.query)
+    console.log(this.$route.params)
     Object.assign(this.searchParams, this.$route.query, this.$route.params);
-    // console.log(this.searchParams)
+    console.log(this.searchParams)
   },
   mounted() {
     // 组件挂载完毕，mounted中只会查询一次
@@ -153,11 +168,11 @@ export default {
     ...mapGetters(["goodsList"]),
     // 是否是价格排序
     isOrder(){
-      return this.searchParams.order.indexOf('2')!=-1
+      return this.searchParams.sort.indexOf('2')!=-1
     },
     // 是否是降序排列
     isDesc(){
-        return this.searchParams.order.indexOf('desc')!=-1
+        return this.searchParams.sort.indexOf('desc')!=-1
     },
     // 排序方式，排序方式
     asc_desc(){

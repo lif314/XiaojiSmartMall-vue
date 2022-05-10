@@ -7,24 +7,12 @@
         <ul class="logo-list">
           <li
             v-for="trademark in trademarkList"
-            :key="trademark.tmId"
+            :key="trademark.brandId"
             @click="tradeMarkHandler(trademark)"
           >
-            {{ trademark.tmName }}
+          <img  :src="trademark.brandImg"/>
+           
           </li>
-          <!-- <li><img src="./images/phone06.png" /></li>
-          <li><img src="./images/phone07.png" /></li>
-          <li><img src="./images/phone08.png" /></li>
-          <li><img src="./images/phone09.png" /></li>
-          <li><img src="./images/phone10.png" /></li>
-          <li><img src="./images/phone11.png" /></li>
-          <li><img src="./images/phone12.png" /></li>
-          <li><img src="./images/phone12.png" /></li>
-          <li><img src="./images/phone14.png" /></li>
-          <li><img src="./images/phone01.png" /></li>
-          <li><img src="./images/phone06.png" /></li>
-          <li><img src="./images/phone07.png" /></li>
-          <li><img src="./images/phone02.png" /></li> -->
         </ul>
       </div>
       <div class="ext">
@@ -38,10 +26,10 @@
       <div class="fl value">
         <ul class="type-list">
           <li
-            v-for="(attrValue, index) in attr.attrValueList"
+            v-for="(attrValue, index) in attr.attrValue"
             :key="index"
           >
-            <a @click="attrInfoHandler(attr.attrId, attr.attrName, attrValue)">{{ attrValue }}</a>
+            <a @click="attrInfoHandler(attr.attrId, attrValue)">{{ attrValue }}</a>
           </li>
         </ul>
       </div>
@@ -58,6 +46,11 @@ export default {
   computed: {
     ...mapGetters(["attrsList", "trademarkList"]),
   },
+  data() {
+      return {
+        attrs: []
+      }
+  },
   methods: {
     // 品牌事件处理函数
     tradeMarkHandler(trademark) {
@@ -67,11 +60,9 @@ export default {
       this.$emit("trademarkInfo", trademark);
     },
     // 平台售卖属性信息
-    attrInfoHandler(attrId, attrName, attrValue) {
-      // console.log(attrId, attrName, attrValue);
-      // ["属性ID:属性值:属性名"]
-      // ["2:6.0～6.24英寸:屏幕尺寸"]
-      let attrInfo = attrId+':' + attrValue + ':' + attrName;
+    attrInfoHandler(attrId, attrValue) {
+      // attrs=1_白色:蓝色&attrs=2_2寸:5寸【属性可多选，值也可多选】
+      let attrInfo = attrId+'_' + attrValue;
       this.$emit('attrInfo', attrInfo)
     },
   },

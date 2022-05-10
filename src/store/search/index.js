@@ -9,8 +9,8 @@ const actions = {
     async getSearchList({ commit }, params = {}) {
         // params至少是一个空对象
         let res = await reqGetSearchInfo(params);
-        // console.log(res.data)
-        if (res.code == 200) {
+        console.log(res.data)
+        if (res.code == 0) {
             commit('GET_SEARCH_LIST', res.data)
         }
     }
@@ -37,13 +37,13 @@ const state = {
 const getters = {
     // 当前仓库的state
     attrsList(state) {
-        return state.searchList.attrsList || [];
+        return state.searchList.attrs || [];
     },
     goodsList() {
-        return state.searchList.goodsList || [];
+        return state.searchList.products || [];
     },
     trademarkList(state) {
-        return state.searchList.trademarkList || []
+        return state.searchList.brands || []
     }
 }
 
