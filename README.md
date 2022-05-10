@@ -1,4 +1,5 @@
 # xiaoji-smart-mall
+- 后端地址：https://github.com/lif314/XiaojiSmartMall
 
 ## 技术栈
 - Vue@2
