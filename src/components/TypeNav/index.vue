@@ -13,15 +13,15 @@
               <div
                 class="item"
                 v-for="(c1, index) in categoryList"
-                :key="c1.categoryId"
+                :key="c1.catId"
                 :class="{ cur: currentIndex == index }"
               >
                 <h3 @mouseenter="changeIndex(index)">
                   <!-- 会创建多个事件回调 -->
                   <a
-                    :data-categoryName="c1.categoryName"
-                    :data-category1Id="c1.categoryId"
-                    >{{ c1.categoryName }}</a
+                    :data-categoryName="c1.name"
+                    :data-category1Id="c1.catId"
+                    >{{ c1.name }}</a
                   >
                   <!-- router-link 会出现卡顿现象：创建组件然后解析，很耗内存 -->
                   <!-- <router-link to="/search">{{ c1.categoryName }}</router-link> -->
@@ -33,24 +33,24 @@
                 >
                   <div
                     class="subitem"
-                    v-for="c2 in c1.categoryChild"
-                    :key="c2.categoryId"
+                    v-for="c2 in c1.children"
+                    :key="c2.catId"
                   >
                     <dl class="fore">
                       <dt>
                         <a
-                          :data-categoryName="c2.categoryName"
-                          :data-category2Id="c2.categoryId"
-                          >{{ c2.categoryName }}</a
+                          :data-categoryName="c2.name"
+                          :data-category2Id="c2.catId"
+                          >{{ c2.name }}</a
                         >
                         <!-- <router-link to="/search">{{ c2.categoryName }}</router-link> -->
                       </dt>
                       <dd>
-                        <em v-for="c3 in c2.categoryChild" :key="c3.categoryId">
+                        <em v-for="c3 in c2.children" :key="c3.catId">
                           <a
-                            :data-categoryName="c3.categoryName"
-                            :data-category3Id="c3.categoryId"
-                            >{{ c3.categoryName }}</a
+                            :data-categoryName="c3.name"
+                            :data-category3Id="c3.catId"
+                            >{{ c3.name }}</a
                           >
                           <!-- <router-link to="/search">{{ c3.categoryName }}</router-link> -->
                         </em>

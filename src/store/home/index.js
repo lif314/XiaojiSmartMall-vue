@@ -1,14 +1,14 @@
 // home模块的仓库
 
-import { getBaseCategoryList, reqGetBannerList, reqGetFloorList} from "@/api"
+import { reqBaseCategoryList,reqGetBannerList, reqGetFloorList} from "@/api"
 
 // action: 处理action，可以书写业务逻辑，处理异步
 const actions = {
     // 通过API里面的函数调用，向服务器发送请求，获取三级分类的数据
     async categoryList({commit}){   // context解构出commit:  context.commit
-        let res =  await getBaseCategoryList();
+        let res =  await reqBaseCategoryList();
         // console.log(res)
-        if(res.code == 200){
+        if(res.code == 0){
             commit('CATEGORY_LIST', res.data);
         }
     },

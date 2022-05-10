@@ -206,47 +206,47 @@ const router = new VueRouter({
 
 
 // 未登录的全局守卫  前置守卫(在路由跳转之间进行判断)
-router.beforeEach(async (to, from, next) => {
-    // to: 目的路由
-    // from：起始路由
-    // next()：放行函数  next();   next('/login')   next(false): 中断当前导航
-    let token = getToken()
-    if (token) {
-        // 已经登录，不能再登录和注册了
-        if (to.path == '/login' || to.path == '/register') {
-            // 用户已经登录，不能去登录页
-            next('/home');
-        } else {
-            // 获取用户信息
-            let name = store.state.user.userInfo.phone
-            if (name) {
-                // 已经有用户信息
-                next();
-            } else {
-                // 没有用户信息
-                try {
-                    // 全局用户信息控制
-                    // 在路由跳转之前获取用户信息
-                    await store.dispatch('getUserInfo')
-                    // 然后放行
-                    next();
-                } catch (error) {
-                    // token失效  重新登录
-                    removeToken() // 也可以走退出登录流程
-                    next('/login')
-                }
-            }
-        }
+// router.beforeEach(async (to, from, next) => {
+//     // to: 目的路由
+//     // from：起始路由
+//     // next()：放行函数  next();   next('/login')   next(false): 中断当前导航
+//     let token = getToken()
+//     if (token) {
+//         // 已经登录，不能再登录和注册了
+//         if (to.path == '/login' || to.path == '/register') {
+//             // 用户已经登录，不能去登录页
+//             next('/home');
+//         } else {
+//             // 获取用户信息
+//             let name = store.state.user.userInfo.phone
+//             if (name) {
+//                 // 已经有用户信息
+//                 next();
+//             } else {
+//                 // 没有用户信息
+//                 try {
+//                     // 全局用户信息控制
+//                     // 在路由跳转之前获取用户信息
+//                     await store.dispatch('getUserInfo')
+//                     // 然后放行
+//                     next();
+//                 } catch (error) {
+//                     // token失效  重新登录
+//                     removeToken() // 也可以走退出登录流程
+//                     next('/login')
+//                 }
+//             }
+//         }
 
-    } else {
-        // 没有登录，不能去交易相关的页面[pay | paysuccess] 个人中心
-        let toPath = to.path;
-        if (toPath.indexOf('/trade') != -1 || toPath.indexOf('/pay') != -1 || toPath.indexOf('/center') != -1) {
-            next('/login?redirect=' + toPath)
-        } else {
-            next()
-        }
-    }
-})
+//     } else {
+//         // 没有登录，不能去交易相关的页面[pay | paysuccess] 个人中心
+//         let toPath = to.path;
+//         if (toPath.indexOf('/trade') != -1 || toPath.indexOf('/pay') != -1 || toPath.indexOf('/center') != -1) {
+//             next('/login?redirect=' + toPath)
+//         } else {
+//             next()
+//         }
+//     }
+// })
 
 export default router;

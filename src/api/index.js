@@ -3,10 +3,10 @@ import requests from "./request";
 import mockRequests from './mockAjax'
 
 // 三级分类 /api/product/getBaseCategoryList GET
-export const getBaseCategoryList = () => {
+export const reqBaseCategoryList = () => {
     return requests({
         // 返回结果是Promise对象
-        url: '/product/getBaseCategoryList',
+        url: 'product/category/list/tree',
         method: 'get'
     })
 }
