@@ -2,7 +2,7 @@
   <div class="register-container">
     <div class="register-wrapper">
       <h3>
-        宏飞商城欢迎您！
+        小济智家欢迎您！
         <span class="go"
           >我有账号，去
           <a @click="gotoLogin">登陆</a>

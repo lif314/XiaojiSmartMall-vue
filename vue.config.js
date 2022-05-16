@@ -6,8 +6,8 @@ module.exports = defineConfig({
   devServer:{
     proxy:{
       '/api':{
-        target: 'http://localhost:8888'
-        // target: 'http://gmall-h5-api.atguigu.cn',  // 后端服务器
+        // target: 'http://localhost:8888'
+        target: 'http://gmall-h5-api.atguigu.cn',  // 后端服务器
         // pathRewrite: {'^/api': ''}  // 路径重写
       }
     }
