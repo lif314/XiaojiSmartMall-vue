@@ -138,13 +138,13 @@ export default {
     leaveIndex() {
       this.currentIndex = -1;
       // 如果search模块中，鼠标移除需要隐藏三级分类
-      if (this.$route.path != "/home") {
+      if (this.$route.path !== "/home") {
         this.isShow = false;
       }
     },
     // search模块中，当鼠标移入时显示三级分类
     enterShow() {
-      if (this.$route.path != "/home") {
+      if (this.$route.path !== "/home") {
         this.isShow = true;
       }
     },
@@ -153,7 +153,7 @@ export default {
   mounted() {
     // this.$store.dispatch("categoryList");
     // 当组件挂在完毕
-    if (this.$route.path != "/home") {
+    if (this.$route.path !== "/home") {
       this.isShow = false;
     }
   },

@@ -7,8 +7,8 @@ const actions = {
     // 通过API里面的函数调用，向服务器发送请求，获取三级分类的数据
     async categoryList({commit}){   // context解构出commit:  context.commit
         let res =  await reqBaseCategoryList();
-        // console.log(res)
-        if(res.code == 0){
+        console.log('分类:',res)
+        if(res.code === 0){
             commit('CATEGORY_LIST', res.data);
         }
     },

@@ -6,7 +6,7 @@ import mockRequests from './mockAjax'
 export const reqBaseCategoryList = () => {
     return requests({
         // 返回结果是Promise对象
-        url: 'product/category/list/tree',
+        url: '/product/category/list/tree',
         method: 'get'
     })
 }

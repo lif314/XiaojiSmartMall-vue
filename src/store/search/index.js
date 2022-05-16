@@ -10,7 +10,7 @@ const actions = {
         // params至少是一个空对象
         let res = await reqGetSearchInfo(params);
         console.log(res.data)
-        if (res.code == 0) {
+        if (res.code === 0) {
             commit('GET_SEARCH_LIST', res.data)
         }
     }
