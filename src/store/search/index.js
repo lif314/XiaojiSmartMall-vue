@@ -9,7 +9,7 @@ const actions = {
     async getSearchList({ commit }, params = {}) {
         // params至少是一个空对象
         let res = await reqGetSearchInfo(params);
-        console.log(res.data)
+        console.log('search_res:',res.data)
         if (res.code === 0) {
             commit('GET_SEARCH_LIST', res.data)
         }

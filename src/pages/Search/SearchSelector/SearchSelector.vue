@@ -11,7 +11,7 @@
             @click="tradeMarkHandler(trademark)"
           >
           <img  :src="trademark.brandImg"/>
-           
+
           </li>
         </ul>
       </div>
@@ -29,7 +29,7 @@
             v-for="(attrValue, index) in attr.attrValue"
             :key="index"
           >
-            <a @click="attrInfoHandler(attr.attrId, attrValue)">{{ attrValue }}</a>
+            <a @click="attrInfoHandler(attr.attrId, attrValue)"><el-tag type="info">{{ attrValue }}</el-tag></a>
           </li>
         </ul>
       </div>

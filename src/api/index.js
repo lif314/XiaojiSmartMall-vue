@@ -36,7 +36,7 @@ export const reqGetFloorList = () => mockRequests.get('/floor')
 // params至少是一个空对象
 export const reqGetSearchInfo = (params) => requests({
     url: '/search/list',
-    method: 'get',
+    method: 'post',
     data: params
 })
 

@@ -7,11 +7,13 @@ import "nprogress/nprogress.css";
 // 引入数据仓库
 import store from '@/store'
 
-axios.defaults.headers['Content-Type'] = 'application/json;charset=utf-8'
 // 1、利用axios创建一个axios实例
 const requests = axios.create({
     baseURL:"http://localhost:8888/api",
     timeout: 5000, // 请求超时时间5s
+    headers:{
+        'Content-Type': 'application/json'
+    }
 })
 
 

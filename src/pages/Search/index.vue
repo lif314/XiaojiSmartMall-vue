@@ -76,8 +76,7 @@
                       target="_blank"
                       href="item.html"
                       title="促销信息，下单即赠送三个月CIBN视频会员卡！【小米电视新品4A 58 火爆预约中】"
-                      >{{ goods.skuTitle }}</a
-                    >
+                    ><span v-html="goods.skuTitle"></span></a>
                   </div>
                   <div class="commit">
                     <i class="command">已有<span>2000</span>人评价</i>
@@ -155,24 +154,24 @@ export default {
     // 发请求之前获取参数数据
     // ES6合并对象
     console.log(this.$route.query)
-    console.log(this.$route.params)
+    console.log('routeparam:',this.$route.params)
     Object.assign(this.searchParams, this.$route.query, this.$route.params);
     console.log(this.searchParams)
   },
   mounted() {
     // 组件挂载完毕，mounted中只会查询一次
-    this.getSearchData(); // 挂载时查询一次
+    this.$store.dispatch("getSearchList", this.$route.params); // 挂载时查询一次
   },
   computed: {
     // getters不区分模块：传递的是数组，没有划分模块
     ...mapGetters(["goodsList"]),
     // 是否是价格排序
     isOrder(){
-      return this.searchParams.sort.indexOf('2')!=-1
+      return this.searchParams.sort.indexOf('2')!==-1
     },
     // 是否是降序排列
     isDesc(){
-        return this.searchParams.sort.indexOf('desc')!=-1
+        return this.searchParams.sort.indexOf('desc')!==-1
     },
     // 排序方式，排序方式
     asc_desc(){
