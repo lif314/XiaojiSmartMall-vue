@@ -5,7 +5,7 @@
     <div class="top">
       <div class="container">
         <div class="loginList">
-          <p>宏飞汇欢迎您！</p>
+          <p>小济智家欢迎您！</p>
           <p v-if="!userInfo.nickName">
             <span>请</span>
             <router-link to="/login">登录</router-link>
@@ -19,10 +19,10 @@
         <div class="typeList">
           <router-link to="/center/myorder">我的订单</router-link>
           <router-link to="/shopcart">我的购物车</router-link>
-          <router-link to="/###">我的宏飞汇</router-link>
-          <router-link to="/###">宏飞汇会员</router-link>
+          <router-link to="/###">我的小济智家</router-link>
+          <router-link to="/###">小济智家会员</router-link>
           <router-link to="/###">企业采购</router-link>
-          <router-link to="/###">关注宏飞汇</router-link>
+          <router-link to="/###">关注小济智家</router-link>
           <router-link to="/###">合作招商</router-link>
           <router-link to="/###">商家后台</router-link>
         </div>
@@ -186,8 +186,8 @@ export default {
 
       .logo {
         img {
-          width: 175px;
-          margin: 25px 45px;
+          width: 250px;
+          margin: 25px 0px;
         }
       }
     }
