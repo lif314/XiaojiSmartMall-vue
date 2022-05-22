@@ -33,7 +33,7 @@
               </div>
               <div class="setting clearFix">
                 <label class="checkbox inline">
-                  <input name="m1" type="checkbox" value="2" checked="" />
+                  <input name="m1" type="checkbox" value="2" v-model="autologin" />
                   自动登录
                 </label>
                 <span class="forget">忘记密码？</span>
@@ -81,8 +81,9 @@ export default {
   name: "Login",
   data() {
     return {
-      account: "13700000000",
-      password: "111111",
+      account: "",
+      password: "",
+      autologin: false
     };
   },
   methods: {
@@ -90,8 +91,9 @@ export default {
       // 用户登录
       if (this.account && this.password) {
         try {
+          // console.log(this.autologin)
           await this.$store.dispatch("userLogin", {
-            phone: this.account,
+            loginacct: this.account,
             password: this.password,
           });
           // 获取用户登录信息 -- 提前触发获取用户信息

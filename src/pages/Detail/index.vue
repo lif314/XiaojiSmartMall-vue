@@ -6,17 +6,17 @@
     <!-- 主要内容区域 -->
     <section class="con">
       <!-- 导航路径区域 -->
-      <div class="conPoin">
-        <span v-show="categoryView.category1Id">{{
-          categoryView.category1Name
-        }}</span>
-        <span v-show="categoryView.category2Id">{{
-          categoryView.category2Name
-        }}</span>
-        <span v-show="categoryView.category3Id">{{
-          categoryView.category3Name
-        }}</span>
-      </div>
+<!--      <div class="conPoin">-->
+<!--        <span v-show="categoryView.category1Id">{{-->
+<!--          categoryView.category1Name-->
+<!--        }}</span>-->
+<!--        <span v-show="categoryView.category2Id">{{-->
+<!--          categoryView.category2Name-->
+<!--        }}</span>-->
+<!--        <span v-show="categoryView.category3Id">{{-->
+<!--          categoryView.category3Name-->
+<!--        }}</span>-->
+<!--      </div>-->
       <!-- 主要内容区域 -->
       <div class="mainCon">
         <!-- 左侧放大镜区域 -->
@@ -87,7 +87,7 @@
                 <dd
                   changepirce="0"
                   v-for="spuSaleAttrValue in spuSaleAttr.spuSaleAttrValueList"
-                  :class="{ active: spuSaleAttrValue.isChecked == '1' }"
+                  :class="{ active: spuSaleAttrValue.isChecked === '1' }"
                   :key="spuSaleAttrValue.id"
                   @click="
                     changeActive(
@@ -370,16 +370,17 @@ export default {
       skuNum: 1, // 购买产品的个数
     };
   },
+  mounted() {
+    // 查询商品详情
+    this.$store.dispatch("getSkuInfo", this.$route.params.skuId)
+
+  },
   computed: {
-    ...mapGetters(["categoryView", "skuInfo", "spuSaleAttrList"]),
+    ...mapGetters(["skuInfo", "spuSaleAttrList"]),
     // 给子组件传递数据，必须保证子组件中存在数据
     skuImageList() {
       return this.skuInfo.skuImageList || []; // 如果服务器数据没有返回，则为undefined
     },
-  },
-  mounted() {
-    // 查询商品详情
-    this.$store.dispatch("getSkuInfo", this.$route.params.skuId);
   },
   methods: {
     // 选择售卖属性
@@ -410,7 +411,7 @@ export default {
       // 返回数据在仓库中
       // action的返回值是一个Promise,即可以知道是否成功
       try{
-          await this.$store.dispatch('addOrUpdateShopCart', {skuId: this.skuInfo.id,skuNum: this.skuNum})
+          await this.$store.dispatch('addOrUpdateShopCart', {skuId: this.skuInfo.skuId,skuNum: this.skuNum})
           // 成功了，进行路由跳转
           // 将产品的信息带给下一级路由
           // 可以携带query参数: skuInfo也可以作为query参数带过去，但比较丑

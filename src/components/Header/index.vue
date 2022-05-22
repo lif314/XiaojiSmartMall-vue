@@ -6,13 +6,13 @@
       <div class="container">
         <div class="loginList">
           <p>小济智家欢迎您！</p>
-          <p v-if="!userInfo.nickName">
+          <p v-if="!userInfo.nickname">
             <span>请</span>
             <router-link to="/login">登录</router-link>
             <router-link class="register" to="/register">免费注册</router-link>
           </p>
           <p v-else>
-            <span>你好，{{ userInfo.nickName }}</span>
+            <span>你好，{{ userInfo.nickname }}</span>
             <a class="register" @click="logout">退出登录</a>
           </p>
         </div>
@@ -75,6 +75,7 @@ export default {
     this.$bus.$on("removeKeyword", () => {
       this.keyword = "";
     });
+    console.log(this.$store.state.user.userInfo)
     // 获取用户登录信息
     // this.$store.dispatch("getUserInfo");
   },

@@ -9,7 +9,7 @@ const actions = {
     async getUserAddress({commit}){
         let res =  await reqAddressInfo()
         // console.log(res)
-        if(res.code == 200){
+        if(res.code === 0){
             commit('USER_ADDRESS', res.data)
         }
    },
@@ -17,7 +17,7 @@ const actions = {
    async getOrderInfo({commit}){
         let res = await reqOrderInfo();
         // console.log(res)
-        if(res.code == 200){
+        if(res.code === 0){
             commit('ORDER_INFO', res.data)
         }
     },
@@ -50,7 +50,7 @@ const state = {
 // getters: 类似计算属性，用于简化仓库数据，让组件获取仓库的数据更加方便
 // 简化仓库中的数据
 const getters = {
-    
+
 
 }
 

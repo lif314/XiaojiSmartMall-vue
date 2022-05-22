@@ -12,8 +12,8 @@ const actions = {
     // 获取商品详情 默认第一个参数是contenxt,需要解析出commit
     async getSkuInfo({commit},skuId){
         let res =  await reqGetSkuDetails(skuId);
-        // console.log(res.data)
-        if(res.code == 200){
+        console.log('details:',res.data)
+        if(res.code === 0){
             commit('GET_SKU_INFO', res.data)
         }
     },
@@ -23,7 +23,7 @@ const actions = {
         // 服务器没有返回数据，只返回了是否成功的表示，因为不需要commit
         // console.log(res);
         // action返回值是Promise[加上async一定是Promise]
-        if(res.code == 200){
+        if(res.code === 0){
             return 'ok';
         }else{
             return Promise.reject(new Error('falied'));
@@ -45,20 +45,21 @@ const state = {
     skuDetails: {},
     // 游客的临时身份
     uuid_token: getUUID()
+
 }
 
 
 // getters: 类似计算属性，用于简化仓库数据，让组件获取仓库的数据更加方便
 // 简化仓库中的数据
 const getters = {
-    categoryView(state){
-        return state.skuDetails.categoryView || {}; // 如果数据没有回来，则是undefined，则应该返回空对象
-    },
-    skuInfo(state){
-        return state.skuDetails.skuInfo || {};
+    // categoryView(state){
+    //     return state.skuDetails.categoryView || {}; // 如果数据没有回来，则是undefined，则应该返回空对象
+    // },
+    skuInfo(){
+        return state.skuDetails.info || {};
     },
     spuSaleAttrList(state){
-        return state.skuDetails.spuSaleAttrList || [];
+        return state.skuDetails.saleAttr || [];
     }
 
 }

@@ -44,20 +44,20 @@ export const reqGetSearchInfo = (params) => requests({
 // 获取产品详细信息
 // /api/item/{ skuId }   GET
 export const reqGetSkuDetails = (skuId) => requests({
-    url: '/item/' + skuId,
+    url: '/product/item/' + skuId,
     method: 'get'
 })
 
 // 将产品添加到购物车中(获取更新某一产品的个数)
-export const reqAddOrUpdateShopCart = (skuId, skuNum) => requests({
-    url: `/cart/addToCart/${skuId}/${skuNum}`,
-    method: 'post'
+export const reqAddOrUpdateShopCart = (skuId, num) => requests({
+    url: `/cart/addToCart/${skuId}/${num}`,
+    method: 'get'
 })
 
 
 //获取购物车中列表数据
 export const reqCartList = () => requests({
-    url: 'cart/cartList',
+    url: '/cart/list',
     method: 'get'
 })
 
@@ -91,7 +91,7 @@ export const reqUserRegister = (regInfo) => requests({
 
 // 登录
 export const reqUserLogin = (loginInfo) => requests({
-    url: '/user/passport/login',
+    url: '/auth/login',
     data: loginInfo,
     method: 'post'
 })

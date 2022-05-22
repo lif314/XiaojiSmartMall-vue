@@ -87,7 +87,6 @@
 </template>
 
 <script>
-import { reqGetCode } from "@/api";
 
 export default {
   name: "Register",
@@ -278,7 +277,7 @@ export default {
 };
 </script>
 
- 
+
 <style scoped>
 #register {
   max-width: 340px;

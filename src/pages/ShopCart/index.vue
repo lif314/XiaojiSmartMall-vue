@@ -63,7 +63,7 @@
           class="chooseAll"
           type="checkbox"
           @click="updateAllChecked"
-          :checked="total.allChecked && cartInfoList.length != 0"
+          :checked="total.allChecked && cartInfoList.length !== 0"
         />
         <span>全选</span>
       </div>

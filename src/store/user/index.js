@@ -27,7 +27,7 @@ const actions = {
         console.log(regInfo);
         let res = await reqUserRegister(regInfo);
         console.log(res)
-        if (res.code == 0) {
+        if (res.code === 0) {
             // 注册成功
             return 'ok';
         } else {
@@ -37,13 +37,17 @@ const actions = {
     // 用户登录
     async userLogin({ commit }, loginInfo) {
         let res = await reqUserLogin(loginInfo);
-        console.log(res)
-        if (res.code == 200) {
+        console.log('login_res',res)
+        // console.log('autologin', autologin)
+        if (res.code === 0) {
             // 返回数据中携带者token和用户信息
             // 一般登录成功，只会返回token，然后携带token向服务器请求数据
-            commit('USER_LOGIN', res.data.token)
+            // commit('USER_LOGIN', res.data.token)
+            commit('USER_INFO', res.data)
+            window.sessionStorage.setItem('username',JSON.stringify(res.data.username))
+            window.sessionStorage.setItem('nickname',JSON.stringify(res.data.nickname))
             // token进行持久化存储
-            setToken(res.data.token)
+            // setToken(res.data.token)
             return 'ok'
         } else {
             return Promise.reject(new Error('failed'))
@@ -53,7 +57,7 @@ const actions = {
     async getUserInfo({ commit }) {
         let res = await reqUserInfo()
         //    console.log(res)
-        if (res.code == 200) {
+        if (res.code === 0) {
             // 提交用户信息
             commit('USER_INFO', res.data)
             return 'ok'
@@ -65,7 +69,7 @@ const actions = {
     async logout({ commit }) {
         // 通知服务器清除token数据
         let res = await reqLogout();
-        if (res.code == 200) {
+        if (res.code === 0) {
             commit('LOGOUT')
             return 'ok'
         }else{
@@ -99,7 +103,11 @@ const mutations = {
 const state = {
     code: '',
     token: getToken(),  // 获取token
-    userInfo: {}
+    userInfo: {
+        username: window.sessionStorage.getItem('username') ==null?'':JSON.parse(window.sessionStorage.getItem('username'||'[]')),
+        nickname: window.sessionStorage.getItem('nickname') ==null?'':JSON.parse(window.sessionStorage.getItem('nickname'||'[]'))
+    },
+
 }
 
 

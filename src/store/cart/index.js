@@ -11,14 +11,14 @@ const actions = {
     async getCartList({ commit }) {
         let res = await reqCartList();
         // console.log(res)  // 没有数据呜呜呜
-        if (res.code == 200) {
+        if (res.code === 0) {
             commit('CART_LIST', res.data)
         }
     },
     // 删除购物车中商品
     async deleteCartListBySkuId({ commit }, { skuId }) {
         let res = await reqDeleteCartBySkuId(skuId);
-        if (res.code == 200) {
+        if (res.code === 0) {
             return 'ok';
         } else {
             return Promise.reject(new Error('failed'))
@@ -28,7 +28,7 @@ const actions = {
     async updateCartStatus({ commit }, { skuId, isChecked }) {
         let res = await reqUpdateCartCheckedById(skuId, isChecked);
         // console.log(res)
-        if (res.code == 200) {
+        if (res.code === 0) {
             return 'ok';
         } else {
             return Promise.reject(new Error('failed'))
