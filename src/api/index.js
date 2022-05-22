@@ -37,7 +37,7 @@ export const reqGetFloorList = () => mockRequests.get('/floor')
 export const reqGetSearchInfo = (params) => requests({
     url: '/search/list',
     method: 'post',
-    data: params
+    data: params,
 })
 
 

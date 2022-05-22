@@ -52,6 +52,7 @@ export default {
       }
   },
   methods: {
+    // 我终于理解了！前端请求结果和Postman请求结果不一样是因为Postman没有库存限制！！！前端请求设置库存为true
     // 品牌事件处理函数
     tradeMarkHandler(trademark) {
       // 需要整理参数。向服务器发送请求 ==> 需要在父组件发送请求

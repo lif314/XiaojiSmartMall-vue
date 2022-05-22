@@ -14,7 +14,7 @@
                 class="item"
                 v-for="(c1, index) in categoryList"
                 :key="c1.catId"
-                :class="{ cur: currentIndex == index }"
+                :class="{ cur: currentIndex === index }"
               >
                 <h3 @mouseenter="changeIndex(index)">
                   <!-- 会创建多个事件回调 -->
@@ -29,7 +29,7 @@
                 <!-- 二、三级分类 -->
                 <div
                   class="item-list clearfix"
-                  :style="{ display: currentIndex == index ? 'block' : 'none' }"
+                  :style="{ display: currentIndex === index ? 'block' : 'none' }"
                 >
                   <div
                     class="subitem"

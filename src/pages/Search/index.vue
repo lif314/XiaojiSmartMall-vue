@@ -11,27 +11,29 @@
             </li>
           </ul>
           <ul class="fl sui-tag">
-            <!-- 分类面包屑 -->
-            <li class="with-x" v-if="searchParams.categoryName">
-              {{ searchParams.categoryName
-              }}<i @click="removeCategoryName">x</i>
-            </li>
             <!-- 关键字面包屑 -->
             <li class="with-x" v-if="searchParams.keyword">
               {{ searchParams.keyword }}<i @click="removeKeyword">x</i>
             </li>
             <!-- 品牌面包屑 -->
-            <li class="with-x" v-if="searchParams.trademark">
-              {{ searchParams.trademark.split(":")[1]
-              }}<i @click="removeTrademark">x</i>
+            <li class="with-x" v-if="searchParams.brandId.length>0">
+              {{ searchParams.brandName
+              }}<i @click="removeCategoryName">x</i>
             </li>
+          </ul>
+            <!-- 分类面包屑 -->
+<!--            <li class="with-x" v-if="searchParams.trademark">-->
+<!--              {{ searchParams.trademark.split(":")[1]-->
+<!--              }}<i @click="removeTrademark">x</i>-->
+<!--            </li>-->
             <!-- 平台售卖属性面包屑 -->
+          <ul class="fl sui-tag" v-if="searchParams.attrs.length>0">
             <li
               class="with-x"
-              v-for="(attr, index) in searchParams.props"
+              v-for="(attr, index) in searchParams.attrs"
               :key="index"
             >
-              {{ attr.split(":")[1] }}<i @click="removeAttrValue(index)">x</i>
+              {{ attr.split("_")[1] }}<i @click="removeAttrValue(index)">x</i>
             </li>
           </ul>
         </div>
@@ -120,19 +122,21 @@ export default {
         // 搜索关键词
         keyword: "",
         // 三级分类id 数字
-        catalog3Id: null,
+        catalog3Id: undefined,
         // 排序方式
         // sort=saleCount_asc  sort=hotScore_asc  sort=skuPrice_asc
         // sort=saleCount_desc  sort=hotScore_desc sort=skuPrice_desc
         sort: "",
         // 是否有货，默认显示有货
         // asStock=0/1【有货】
-        hasStock: 1,
+        hasStock: undefined,
         // 商品价格区间
         // skuPrice=0_500/500_/_500【价格区间】
-        skuPrice: "",
+        skuPrice: undefined,
         // 品牌id
         brandId: [],
+        // 品牌名称
+        brandName: undefined,
         // 三级分类id+属性值
         // attrs=1_白色:蓝色&attrs=2_2寸:5寸【属性可多选，值也可多选】
         attrs: [],
@@ -140,23 +144,22 @@ export default {
         pageNum: 1,
         // 排序方式
         // order: "1:desc",  // 1表示综合  降序  2 表示价格
-        // // 分页参数
+        // 分页参数
         // pageNo: 1,
-        // pageSize: 10,
-        // // 属性查询
+        pageSize: 10,
+        // 属性查询
         // props: [], // 商品属性的数组: ["属性ID:属性值:属性名"]示例: ["2:6.0～6.24英寸:屏幕尺寸"]
-        // // 品牌信息
-        // trademark: "",
+
       },
     };
   },
   beforeMount() {
     // 发请求之前获取参数数据
     // ES6合并对象
-    console.log(this.$route.query)
-    console.log('routeparam:',this.$route.params)
+    // console.log('routequery:',this.$route.query)
+    // console.log('routeparam:',this.$route.params)
     Object.assign(this.searchParams, this.$route.query, this.$route.params);
-    console.log(this.searchParams)
+    // console.log('searchparams:',this.searchParams)
   },
   mounted() {
     // 组件挂载完毕，mounted中只会查询一次
@@ -164,10 +167,10 @@ export default {
   },
   computed: {
     // getters不区分模块：传递的是数组，没有划分模块
-    ...mapGetters(["goodsList"]),
+    ...mapGetters(["goodsList","trademarkList"]),
     // 是否是价格排序
     isOrder(){
-      return this.searchParams.sort.indexOf('2')!==-1
+      return this.searchParams.sort.indexOf('skuPrice')!==-1
     },
     // 是否是降序排列
     isDesc(){
@@ -186,7 +189,7 @@ export default {
     // 获取当前点击的页
     getPageNo(no){
       // 自定义事件的回调函数
-        this.searchParams.pageNo = no
+        this.searchParams.pageNum = no
         this.getSearchData()
     },
     // 排序点击事件
@@ -194,17 +197,18 @@ export default {
       // flag 1 点击综合， 2 点击价格
       if(flag === '1'){
           // 综合排序
-          let sort = this.searchParams.order.indexOf('desc') != -1?'asc':'desc';
-          this.searchParams.order = '1:' + sort;
+          let sort = this.searchParams.sort.indexOf('desc') !== -1?'asc':'desc';
+          this.searchParams.sort = 'hotScore_' + sort;
           // 重新发送请求
           this.getSearchData();
       }else{
         // 价格排序
-        let sort = this.searchParams.order.indexOf('desc') != -1?'asc':'desc';
-         this.searchParams.order = '2:' + sort;
+        let sort = this.searchParams.sort.indexOf('desc') !== -1?'asc':'desc';
+         this.searchParams.sort = 'skuPrice_' + sort;
           // 重新发送请求
           this.getSearchData();
       }
+      console.log(this.isOrder, this.isDesc)
     },
     // 获取搜索数据
     getSearchData() {
@@ -212,7 +216,8 @@ export default {
     },
     // 分类面包屑清除
     removeCategoryName() {
-      this.searchParams.categoryName = undefined;
+      this.searchParams.brandId = [];
+      this.searchParams.brandName = undefined
       // 还需要发送请求
       this.getSearchData();
       this.searchParams.category1Id = undefined; // undefined的数据不会传送给服务器
@@ -226,7 +231,7 @@ export default {
     },
     // 关键字面包屑清除
     removeKeyword() {
-      this.searchParams.keyword = undefined;
+      this.searchParams.keyword = '';
       // 文本框中关键字置空  Header和Search组件：兄弟组件通信
       // 再次发送请求
       this.getSearchData();
@@ -247,7 +252,7 @@ export default {
     },
     // 移除平台属性面包屑
     removeAttrValue(index) {
-      this.searchParams.props.splice(index, 1);
+      this.searchParams.attrs.splice(index, 1);
       // 再次发送发请求
       this.getSearchData();
     },
@@ -256,7 +261,9 @@ export default {
       // 自定义之间回调
       // console.log("属性", trademark)
       // 整理品牌字段参数 "ID:字段名"
-      this.searchParams.trademark = `${trademark.tmId}:${trademark.tmName}`;
+      // this.searchParams.brandId = `${trademark.brandId}:${trademark.brandName}`;
+      this.searchParams.brandId.push(trademark.brandId)
+      this.searchParams.brandName = trademark.brandName
       // 再次发送请求获取数据
       this.getSearchData();
     },
@@ -264,8 +271,8 @@ export default {
     attrInfo(attrInfo) {
       // console.log(attrInfo)
       // 需要进行数据去重
-      if (this.searchParams.props.indexOf(attrInfo) === -1) {
-        this.searchParams.props.push(attrInfo);
+      if (this.searchParams.attrs.indexOf(attrInfo) === -1) {
+        this.searchParams.attrs.push(attrInfo);
         //发送请求
         this.getSearchData();
       }

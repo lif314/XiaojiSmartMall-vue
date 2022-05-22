@@ -9,7 +9,7 @@ import store from '@/store'
 let originPush = VueRouter.prototype.push;
 let originReplace = VueRouter.prototype.replace;
 /**
- * @param {*} location 向哪里跳转 
+ * @param {*} location 向哪里跳转
  */
 VueRouter.prototype.push = function (location, resolve, reject) {
     if (resolve && reject) {
@@ -54,7 +54,7 @@ Vue.use(VueRouter)
 // 路由懒加载： 使用时才加载路由
 
 /*
-- 路由可以传递参数props,是prams参数  
+- 路由可以传递参数props,是prams参数
 - 配置props:true
 - 使用对象
     props:{
@@ -63,6 +63,7 @@ Vue.use(VueRouter)
 */
 
 const router = new VueRouter({
+    mode: "history",
     // 配置路由
     routes: [
         // 重定向：访问/立马跳转到首页
