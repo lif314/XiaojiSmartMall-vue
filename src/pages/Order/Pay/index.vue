@@ -89,6 +89,7 @@
         </div>
       </div>
     </div>
+    <div class="backend-return" v-html="pay"></div>
   </div>
 </template>
 
@@ -101,7 +102,7 @@ export default {
   name: "Pay",
   computed: {
     orderId() {
-      return this.$route.query.orderId;
+      return this.$route.params.orderId;
     },
   },
   data() {
@@ -113,6 +114,7 @@ export default {
       },
       timer: null,
       code: null, // 支付状态码
+      pay:null
     };
   },
   // 不要在生命周期函数上添加 async
@@ -124,9 +126,9 @@ export default {
     // 获取支付信息
     async getOrderInfo() {
       let res = await reqOrderPayInfo(this.orderId);
-      console.log(res);
-      if (res.code == 200) {
-        // this.payInfo = res.data;
+      console.log('pay ',res);
+      if (res.code === 0) {
+        this.pay = res.data
         /*
         {
       "code": 200,
@@ -137,7 +139,7 @@ export default {
         "totalFee": 23996,
         "resultCode": "SUCCESS"
       },
-      "ok": true    
+      "ok": true
       }
         */
       }
