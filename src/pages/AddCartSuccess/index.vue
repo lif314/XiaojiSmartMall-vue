@@ -13,7 +13,7 @@
           </div>
         </div>
         <div class="right-gocart">
-          <router-link :to="`/detail/${skuInfo.id}`" class="sui-btn btn-xlarge">查看商品详情</router-link>
+          <router-link :to="`/detail/${skuInfo.skuId}`" class="sui-btn btn-xlarge">查看商品详情</router-link>
           <router-link to="/shopcart" >去购物车结算 > </router-link>
         </div>
       </div>
@@ -24,22 +24,26 @@
 <script>
   export default {
     name: 'AddCartSuccess',
+    // mounted() {
+    //   console.log(JSON.parse(sessionStorage.getItem('SKUINFO')))
+    // },
     computed:{
       skuInfo(){
         return JSON.parse(sessionStorage.getItem('SKUINFO'))
       },
       // 售卖属性
       attrString(){
-        let spuSaleAttrList = JSON.parse(sessionStorage.getItem('ATTRLIST'))  
+        let spuSaleAttrList = JSON.parse(sessionStorage.getItem('ATTRLIST'))
         let attr = "";
         spuSaleAttrList.attrList.forEach(element => {
-          attr += element.saleAttrName + ": ";
-          element.spuSaleAttrValueList.forEach((value)=>{
-            if(value.isChecked==='1'){
-              attr += value.saleAttrValueName;
-            }
+          attr += element.attrName + ": ";
+          element.attrValues.forEach((value)=>{
+            // if(value.isChecked==='1'){
+              attr += value.attrValue;
+            attr += ' '
+            // }
           })
-          attr += ' ';
+
         });
         return attr;
       }

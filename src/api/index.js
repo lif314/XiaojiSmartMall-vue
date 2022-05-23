@@ -64,14 +64,14 @@ export const reqCartList = () => requests({
 // 删除购物车中的商品
 // DETELE /api/cart/deleteCart/{skuId}
 export const reqDeleteCartBySkuId = (skuId) => requests({
-    url: `/cart/deleteCart/${skuId}`,
-    method: 'delete'
+    url: `/cart/deleteItem?skuId=${skuId}`,
+    method: 'get'
 })
 
 // 修改商品的选中状态
 // /api/cart/checkCart/{skuId}/{isChecked}  GET
 export const reqUpdateCartCheckedById = (skuId, isChecked) => requests({
-    url: `/cart/checkCart/${skuId}/${isChecked}`,
+    url: `/cart/checkItem/${skuId}/${isChecked}`,
     method: 'get'
 })
 
@@ -99,8 +99,11 @@ export const reqUserLogin = (loginInfo) => requests({
 
 // 使用token获取用户信息
 export const reqUserInfo = ()=>requests({
-    url: '/user/passport/auth/getUserInfo',
-    method:'get'
+    url: '/member/member/userinfo',
+    method:'post',
+    data:{
+        token: window.localStorage.getItem('TOKEN') ==null?'':window.localStorage.getItem('TOKEN'||'[]')
+    }
 })
 
 // 退出登录
@@ -119,7 +122,7 @@ export const reqAddressInfo = ()=>requests({
 
 // 获取商品清单
 export const reqOrderInfo = ()=>requests({
-    url: '/order/auth/trade',
+    url: '/order/toTrade',
     method: 'get'
 })
 

@@ -10,7 +10,7 @@ import { reqCartList, reqDeleteCartBySkuId, reqUpdateCartCheckedById } from "@/a
 const actions = {
     async getCartList({ commit }) {
         let res = await reqCartList();
-        // console.log(res)  // 没有数据呜呜呜
+        console.log('cartlist:',res)  // 没有数据呜呜呜
         if (res.code === 0) {
             commit('CART_LIST', res.data)
         }
@@ -26,6 +26,7 @@ const actions = {
     },
     // 更新购物车中商品状态
     async updateCartStatus({ commit }, { skuId, isChecked }) {
+        console.log(skuId,isChecked)
         let res = await reqUpdateCartCheckedById(skuId, isChecked);
         // console.log(res)
         if (res.code === 0) {
@@ -49,7 +50,7 @@ const actions = {
     //全选操作
     updateAllChecked({ dispatch, getters }, { isChecked }) {
         let promiseAll = []
-        getters.cartList.cartInfoList.forEach(element => {
+        getters.cartList.items.forEach(element => {
             // if (element.isChecked === 0) {
             // Promise([p1, p2,p3])
             let res = dispatch('updateCartStatus', { skuId: element.skuId, isChecked })
@@ -78,7 +79,7 @@ const state = {
 // 简化仓库中的数据
 const getters = {
     cartList(state) {
-        return state.cartList[0] || {}
+        return state.cartList
     }
 
 }

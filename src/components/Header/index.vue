@@ -6,7 +6,7 @@
       <div class="container">
         <div class="loginList">
           <p>小济智家欢迎您！</p>
-          <p v-if="!userInfo.nickname">
+          <p v-if="!userInfo">
             <span>请</span>
             <router-link to="/login">登录</router-link>
             <router-link class="register" to="/register">免费注册</router-link>
@@ -67,7 +67,7 @@ export default {
   },
   computed: {
     userInfo() {
-      return this.$store.state.user.userInfo;
+      return this.$store.state.user.userInfo
     },
   },
   mounted() {
@@ -75,9 +75,8 @@ export default {
     this.$bus.$on("removeKeyword", () => {
       this.keyword = "";
     });
-    console.log(this.$store.state.user.userInfo)
     // 获取用户登录信息
-    // this.$store.dispatch("getUserInfo");
+    this.$store.dispatch("getUserInfo");
   },
   beforeDestroy() {
     // 清除事件总线
@@ -88,12 +87,15 @@ export default {
     async logout() {
       // 发送请求通知服务器
       // 清除项目中的数据
-      try {
-        this.$store.dispatch("logout");
-        this.$router.push("/home");
-      } catch (error) {
-        console.log(error.message);
-      }
+      // window.sessionStorage.removeItem('username')
+      // window.sessionStorage.removeItem('nickname')
+      this.$router.push("/home");
+      // try {
+      //   this.$store.dispatch("logout");
+      //   this.$router.push("/home");
+      // } catch (error) {
+      //   console.log(error.message);
+      // }
     },
     // 编程式导航，跳转到搜索页面
     goSearch() {

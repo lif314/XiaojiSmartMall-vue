@@ -11,24 +11,24 @@
         <div class="cart-th6">操作</div>
       </div>
       <div class="cart-body">
-        <ul class="cart-list" v-for="item in cartInfoList" :key="item.id">
+        <ul class="cart-list" v-for="item in items" :key="item.id">
           <li class="cart-list-con1">
             <input
               type="checkbox"
               name="chk_list"
-              :checked="item.isChecked == 1"
+              :checked="item.check === true"
               @change="updateCartStatus(item.skuId, $event)"
             />
           </li>
           <li class="cart-list-con2">
-            <img :src="item.imgUrl" />
+            <img :src="item.image" />
             <div class="item-msg">{{ item.skuName }}</div>
           </li>
           <!-- <li class="cart-list-con3">
             <div class="item-txt">语音升级款</div>
           </li> -->
           <li class="cart-list-con4">
-            <span class="price">{{ item.skuPrice }}</span>
+            <span class="price">{{ item.price }}</span>
           </li>
           <!-- 商品数量 -->
           <li class="cart-list-con5">
@@ -36,7 +36,7 @@
             <input
               autocomplete="off"
               type="text"
-              :value="item.skuNum"
+              :value="item.count"
               minnum="1"
               class="itxt"
               @change="handler('change', $event.target.value * 1, item)"
@@ -45,14 +45,16 @@
           </li>
 
           <li class="cart-list-con6">
-            <span class="sum">{{ item.skuPrice * item.skuNum }}</span>
+            <span class="sum">{{ item.price * item.count }}</span>
           </li>
           <li class="cart-list-con7">
             <button @click="deleteCart(item.skuId)" class="sindelet">
               删除
             </button>
             <br />
-            <a href="#none">移到收藏</a>
+            <button class="sindelet">
+              移到收藏
+            </button>
           </li>
         </ul>
       </div>
@@ -63,7 +65,7 @@
           class="chooseAll"
           type="checkbox"
           @click="updateAllChecked"
-          :checked="total.allChecked && cartInfoList.length !== 0"
+          :checked="total.allChecked && items.length !== 0"
         />
         <span>全选</span>
       </div>
@@ -101,18 +103,18 @@ export default {
   },
   computed: {
     ...mapGetters(["cartList"]),
-    cartInfoList() {
-      return this.cartList.cartInfoList || [];
+    items() {
+      return this.cartList.items || [];
     },
     // 计算勾选的产品总价和产品总数
     total() {
-      let checkedPrice = 0;
+      let checkedPrice = this.cartList.totalAmount;
       let checkedNum = 0;
       let allChecked = 1;
-      this.cartInfoList.forEach((element) => {
-        if (element.isChecked === 1) {
-          checkedNum += element.skuNum;
-          checkedPrice += element.skuPrice * element.skuNum;
+      this.items.forEach((element) => {
+        if (element.check === true) {
+          checkedNum += element.count;
+          // checkedPrice += element.price * element.count;
         } else {
           allChecked = 0;
         }
@@ -179,7 +181,7 @@ export default {
         case "minus":
           //判断产品的个数大于1，才可以传递给服务器-1
           //如果出现产品的个数小于等于1，传递给服务器个数0（原封不动）
-          disNum = cart.skuNum > 1 ? -1 : 0;
+          disNum = cart.count > 1 ? -1 : 0;
           break;
         case "change":
           // //用户输入进来的最终量，如果非法的（带有汉字|出现负数），带给服务器数字零
@@ -188,9 +190,9 @@ export default {
             disNum = 0;
           } else {
             //属于正常情况（小数：取证），带给服务器变化的量 用户输入进来的 - 产品的起始个数
-            disNum = parseInt(disNum) - cart.skuNum;
+            disNum = parseInt(disNum) - cart.count;
           }
-          // disNum = (isNaN(disNum)||disNum<1)?0:parseInt(disNum) - cart.skuNum;
+          // disNum = (isNaN(disNum)||disNum<1)?0:parseInt(disNum) - cart.count;
           break;
       }
       //派发action
@@ -198,7 +200,7 @@ export default {
         //代表的是修改成功
         await this.$store.dispatch("addOrUpdateShopCart", {
           skuId: cart.skuId,
-          skuNum: disNum,
+          count: disNum,
         });
         //再一次获取服务器最新的数据进行展示
         this.getData();

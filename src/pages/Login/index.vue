@@ -97,7 +97,7 @@ export default {
             password: this.password,
           });
           // 获取用户登录信息 -- 提前触发获取用户信息
-          // this.$store.dispatch("getUserInfo");  // 刷新会丢失用户信息
+          await this.$store.dispatch("getUserInfo");  // 刷新会丢失用户信息
           // 查看路由中的query参数，如果有，跳到路由参数处，否则在在首页
           let toPath = this.$route.query.redirect || "/home";
           this.$router.push(toPath);

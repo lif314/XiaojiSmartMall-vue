@@ -16,7 +16,7 @@ const actions = {
    // 订单商品信息
    async getOrderInfo({commit}){
         let res = await reqOrderInfo();
-        // console.log(res)
+        console.log('orders',res)
         if(res.code === 0){
             commit('ORDER_INFO', res.data)
         }

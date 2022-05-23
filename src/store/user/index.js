@@ -37,17 +37,14 @@ const actions = {
     // 用户登录
     async userLogin({ commit }, loginInfo) {
         let res = await reqUserLogin(loginInfo);
-        console.log('login_res',res)
+        console.log('login_res',res.data)
         // console.log('autologin', autologin)
         if (res.code === 0) {
             // 返回数据中携带者token和用户信息
             // 一般登录成功，只会返回token，然后携带token向服务器请求数据
-            // commit('USER_LOGIN', res.data.token)
-            commit('USER_INFO', res.data)
-            window.sessionStorage.setItem('username',JSON.stringify(res.data.username))
-            window.sessionStorage.setItem('nickname',JSON.stringify(res.data.nickname))
+            commit('USER_LOGIN', res.data)
             // token进行持久化存储
-            // setToken(res.data.token)
+            setToken(res.data)
             return 'ok'
         } else {
             return Promise.reject(new Error('failed'))
@@ -56,7 +53,7 @@ const actions = {
     // 获取用户登录信息
     async getUserInfo({ commit }) {
         let res = await reqUserInfo()
-        //    console.log(res)
+        console.log('userinfo',res)
         if (res.code === 0) {
             // 提交用户信息
             commit('USER_INFO', res.data)
@@ -103,10 +100,11 @@ const mutations = {
 const state = {
     code: '',
     token: getToken(),  // 获取token
-    userInfo: {
-        username: window.sessionStorage.getItem('username') ==null?'':JSON.parse(window.sessionStorage.getItem('username'||'[]')),
-        nickname: window.sessionStorage.getItem('nickname') ==null?'':JSON.parse(window.sessionStorage.getItem('nickname'||'[]'))
-    },
+    userInfo:{}
+    // userInfo: {
+    //     username: window.localStorage.getItem('username') ==null?'':JSON.parse(window.localStorage.getItem('username'||'[]')),
+    //     nickname: window.localStorage.getItem('nickname') ==null?'':JSON.parse(window.localStorage.getItem('nickname'||'[]'))
+    // },
 
 }
 

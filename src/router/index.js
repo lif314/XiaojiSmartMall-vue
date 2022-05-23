@@ -132,7 +132,7 @@ const router = new VueRouter({
             },
             // 路由独享守卫: 必须从购物车而来
             beforeEnter:(to, from , next)=>{
-                if(from.path =='/shopcart'){
+                if(from.path ==='/shopcart'){
                     next()
                 }else{
                     next(false)
@@ -149,7 +149,7 @@ const router = new VueRouter({
             },
             beforeEnter:(to, from ,next)=>{
                 // 必须从确认订单页而来
-                if(from.path == '/trade'){
+                if(from.path === '/trade'){
                     next()
                 }else{
                     next(false)
