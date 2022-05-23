@@ -81,9 +81,9 @@
                   </div>
                   <div class="operate">
                     <a
-                      href="success-cart.html"
                       target="_blank"
                       class="sui-btn btn-bordered btn-danger"
+                      @click="addToCart(goods.skuId)"
                       >加入购物车</a
                     >
                     <a href="javascript:void(0);" class="sui-btn btn-bordered"
@@ -273,6 +273,30 @@ export default {
         this.getSearchData();
       }
     },
+    // 添加购物车
+    async addToCart(id){
+      // console.log('老子',id)
+      // alert(this.skuInfo.id, this.skuNum)
+      // 返回数据在仓库中
+      // action的返回值是一个Promise,即可以知道是否成功
+      try{
+        await this.$store.dispatch('addOrUpdateShopCart', {skuId: id,skuNum: 1})
+        // 成功了，进行路由跳转
+        // 将产品的信息带给下一级路由
+        // 可以携带query参数: skuInfo也可以作为query参数带过去，但比较丑
+        // 可以使用本地存储：HTML新增功能--本地存储，会话存储
+        // sessionStorage: 不是持久化，浏览器关闭，即以此会话结束，数据消失
+        // localStorage: 持久化存储，上限5M
+        // 路由之间参数传递：简单的数据可以使用query参数传递，复杂数据可以使用会话存储传递，浏览器关闭，数据丢失
+        // 两种存储方式只能存储字符串，json数据
+        // sessionStorage.setItem('SKUINFO', JSON.stringify(this.skuInfo))
+        // sessionStorage.setItem('ATTRLIST', JSON.stringify({attrList:this.spuSaleAttrList}))
+        window.localStorage.setItem('SKUID',id)
+        this.$router.push({name:'addcartsuccess', query:{skuNum: 1}});
+      }catch(error){
+        console.log(error.message)
+      }
+    }
   },
   watch: {
     // 监听路由的变化：一旦路由变化，则需要发送请求

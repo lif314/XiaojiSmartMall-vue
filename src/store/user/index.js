@@ -65,13 +65,14 @@ const actions = {
     // 退出登录
     async logout({ commit }) {
         // 通知服务器清除token数据
-        let res = await reqLogout();
-        if (res.code === 0) {
-            commit('LOGOUT')
-            return 'ok'
-        }else{
-            return Promise.reject(new Error('failed'))
-        }
+        // let res = await reqLogout();
+        // if (res.code === 0) {
+        //     commit('LOGOUT')
+        //     return 'ok'
+        // }else{
+        //     return Promise.reject(new Error('failed'))
+        // }
+        commit('LOGOUT')
     }
 }
 

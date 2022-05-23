@@ -128,7 +128,7 @@ export const reqOrderInfo = ()=>requests({
 
 // 提交订单
 export const reqSubmitOrder = (tradeNo, data)=>requests({
-    url: `/order/auth/submitOrder?tradeNo=${tradeNo}`,
+    url: '/order/submitOrder',
     data: data,
     method: 'post'
 })

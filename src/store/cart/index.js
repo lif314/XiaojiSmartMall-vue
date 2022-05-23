@@ -38,8 +38,8 @@ const actions = {
     // 删除选中的所有商品
     deleteAllCheckedCart({ dispatch, getters }) {
         let promiseAll = []
-        getters.cartList.cartInfoList.forEach(element => {
-            if (element.isChecked === 1) {
+        getters.cartList.items.forEach(element => {
+            if (element.check === true) {
                 // Promise([p1, p2,p3])
                 let res = dispatch('deleteCartListBySkuId', { skuId: element.skuId })
                 promiseAll.push(res);

@@ -42,7 +42,21 @@ const mutations = {
 
 // state: 仓库存储数据
 const state = {
-    userAddressList: [],
+    userAddressList: [{
+        id:1,
+        consignee:'邵国诚',
+        fullAddress:'中国上海市嘉定区曹安公路4800号同济大学嘉定校区',
+        phoneNum: '17696259001',
+        isDefault: true,
+        isSelect: true
+    },{
+        id:2,
+        consignee:'李林飞',
+        fullAddress:'中国上海市嘉定区曹安公路4800号同济大学嘉定校区',
+        phoneNum: '18387400236',
+        isDefault: false,
+        isSelect: false
+    }],
     orderInfo: {}
 }
 

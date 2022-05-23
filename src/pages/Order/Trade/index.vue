@@ -10,7 +10,8 @@
         :key="address.id"
         @click="changeDefault(address)"
       >
-        <span class="username selected">{{ address.consignee }}</span>
+        <span v-if="address.isSelect == '1'" class="username selected">{{ address.consignee }}</span>
+        <span v-else class="username">{{ address.consignee }}</span>
         <p>
           <span class="s1">{{ address.fullAddress }}</span>
           <span class="s2">{{ address.phoneNum }}</span>
@@ -39,26 +40,26 @@
         <h5>商品清单</h5>
         <ul
           class="list clearFix"
-          v-for="goods in orderInfo.detailArrayList"
+          v-for="goods in orderInfo.items"
           :key="goods.skuId"
         >
           <li>
             <img
-              :src="goods.imgUrl"
+              :src="goods.image"
               alt=""
               style="width: 100px; height: 80px"
             />
           </li>
           <li>
             <p>
-              {{ goods.skuName }}
+              {{ goods.title }}
             </p>
             <h4>7天无理由退货</h4>
           </li>
           <li>
-            <h3>{{ goods.orderPrice }}</h3>
+            <h3>{{ goods.price }}</h3>
           </li>
-          <li>X{{ goods.skuNum }}</li>
+          <li>X{{ goods.count }}</li>
           <li>有货</li>
         </ul>
       </div>
@@ -107,7 +108,7 @@
       </div>
     </div>
     <div class="sub clearFix">
-      <a class="subBtn" to="/pay" @click="submitOrder">提交订单</a>
+      <a class="subBtn" @click="submitOrder">提交订单</a>
     </div>
   </div>
 </template>
@@ -119,8 +120,8 @@ import { reqSubmitOrder } from "@/api";
 export default {
   name: "Trade",
   mounted() {
-    this.$store.dispatch("getUserAddress"),
-      this.$store.dispatch("getOrderInfo");
+    // this.$store.dispatch("getUserAddress")
+    this.$store.dispatch("getOrderInfo")
   },
   computed: {
     ...mapState({
@@ -134,9 +135,9 @@ export default {
       // 商品总的数量
       let totalSkuNum = 0;
       let totalPrice = 0;
-      this.orderInfo.detailArrayList.forEach((item) => {
-        totalSkuNum += item.skuNum;
-        totalPrice += item.skuNum * item.orderPrice;
+      this.orderInfo.items.forEach((item) => {
+        totalSkuNum += item.count;
+        totalPrice += item.count * item.price;
       });
       return { totalSkuNum, totalPrice };
     },
@@ -151,25 +152,25 @@ export default {
     // 修改默认地址
     changeDefault(address) {
       this.userAddressList.forEach((element) => {
-        element.isDefault = "0";
+        element.isSelect = "0";
       });
-      address.isDefault = "1";
+      address.isSelect = "1";
     },
     // 提交订单
     async submitOrder() {
       // this.$store.dispatch('submitOrder', tradeNo, data)
-      let { traderNo } = this.orderInfo;
+      let { traderNo } = this.orderInfo
       let data = {
-        consignee: this.userDefaultAddrerss.consignee,
-        consigneeTel: this.userDefaultAddrerss.phoneNum,
-        deliveryAddress: this.userDefaultAddrerss.fullAddress,
-        paymentWay: "ONLINE",
-        orderComment: this.msg,
-        orderDetailList: this.orderInfo.detailArrayList,
-      };
+        addrId: this.userDefaultAddrerss.id,
+        payType: 1,
+        payPrice: this.total.totalPrice,
+        orderToken: this.orderInfo.orderToken,
+        note: this.msg
+      }
+      // console.log('submitinfo:',data)
       let res = await reqSubmitOrder(traderNo, data);
       console.log(res);
-      if (res.code == 200) {
+      if (res.code === 0) {
         this.orderId = res.data; // 订单号
         // 路由传参
         this.$router.push("/pay/orderId=" + this.orderId);

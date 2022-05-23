@@ -22,31 +22,42 @@
 </template>
 
 <script>
+  import {mapGetters} from "vuex";
+
   export default {
     name: 'AddCartSuccess',
     // mounted() {
     //   console.log(JSON.parse(sessionStorage.getItem('SKUINFO')))
     // },
     computed:{
-      skuInfo(){
-        return JSON.parse(sessionStorage.getItem('SKUINFO'))
-      },
-      // 售卖属性
-      attrString(){
-        let spuSaleAttrList = JSON.parse(sessionStorage.getItem('ATTRLIST'))
-        let attr = "";
-        spuSaleAttrList.attrList.forEach(element => {
-          attr += element.attrName + ": ";
-          element.attrValues.forEach((value)=>{
-            // if(value.isChecked==='1'){
-              attr += value.attrValue;
-            attr += ' '
-            // }
-          })
+      ...mapGetters(["skuInfo", "spuSaleAttrList"]),
+      // skuInfo(){
+      //   return JSON.parse(sessionStorage.getItem('SKUINFO'))
+      // },
+      // // 售卖属性
+      // attrString(){
+      //   let spuSaleAttrList = JSON.parse(sessionStorage.getItem('ATTRLIST'))
+      //   let attr = "";
+      //   spuSaleAttrList.attrList.forEach(element => {
+      //     attr += element.attrName + ": ";
+      //     element.attrValues.forEach((value)=>{
+      //       // if(value.isChecked==='1'){
+      //         attr += value.attrValue;
+      //       attr += ' '
+      //       // }
+      //     })
+      //
+      //   });
+      //   return attr;
+      // }
+    },
+    mounted() {
+      // console.log('storeskuid ',window.localStorage.getItem('SKUID'))
+        // 查询商品详情
+        if(window.localStorage.getItem('SKUID')){
+          this.$store.dispatch("getSkuInfo", window.localStorage.getItem('SKUID'))
+        }
 
-        });
-        return attr;
-      }
     }
   }
 </script>

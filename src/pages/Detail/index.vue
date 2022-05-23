@@ -373,7 +373,6 @@ export default {
   mounted() {
     // 查询商品详情
     this.$store.dispatch("getSkuInfo", this.$route.params.skuId)
-
   },
   computed: {
     ...mapGetters(["skuInfo", "spuSaleAttrList"]),

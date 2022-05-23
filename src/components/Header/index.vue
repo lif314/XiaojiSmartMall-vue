@@ -6,7 +6,7 @@
       <div class="container">
         <div class="loginList">
           <p>小济智家欢迎您！</p>
-          <p v-if="!userInfo">
+          <p v-if="!userInfo||userInfo==={}">
             <span>请</span>
             <router-link to="/login">登录</router-link>
             <router-link class="register" to="/register">免费注册</router-link>
@@ -87,15 +87,12 @@ export default {
     async logout() {
       // 发送请求通知服务器
       // 清除项目中的数据
-      // window.sessionStorage.removeItem('username')
-      // window.sessionStorage.removeItem('nickname')
-      this.$router.push("/home");
-      // try {
-      //   this.$store.dispatch("logout");
-      //   this.$router.push("/home");
-      // } catch (error) {
-      //   console.log(error.message);
-      // }
+      try {
+        await this.$store.dispatch("logout");
+        this.$router.push("/home");
+      } catch (error) {
+        console.log(error.message);
+      }
     },
     // 编程式导航，跳转到搜索页面
     goSearch() {

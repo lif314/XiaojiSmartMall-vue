@@ -28,7 +28,7 @@ requests.interceptors.response.use((res)=>{
     return res.data; // 直接返回数据
 },(error)=>{
     // 失败的回调函数
-    return Promise.reject(new Error('faile')); // 终止Promise链
+    return Promise.reject(new Error(error.message)); // 终止Promise链
 })
 
 export default requests
