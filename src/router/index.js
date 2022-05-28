@@ -142,19 +142,19 @@ const router = new VueRouter({
         {
             // 提交订单
             name: 'pay',
-            path: '/pay',
+            path: '/pay/:orderId',
             component: ()=>import('@/pages/Order/Pay'),
             meta: {
                 isFooterShow: true,
             },
-            beforeEnter:(to, from ,next)=>{
-                // 必须从确认订单页而来
-                if(from.path === '/trade'){
-                    next()
-                }else{
-                    next(false)
-                }
-            }
+            // beforeEnter:(to, from ,next)=>{
+            //     // 必须从确认订单页而来
+            //     if(from.path === '/trade'){
+            //         next()
+            //     }else{
+            //         next(false)
+            //     }
+            // }
         },
         {
             // 支付成功页面

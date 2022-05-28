@@ -5,7 +5,7 @@ import nprogress from "nprogress";
 // 引入样式 可以自己更改样式
 import "nprogress/nprogress.css";
 // 引入数据仓库
-import store from '@/store'
+// import store from '@/store'
 
 // 1、利用axios创建一个axios实例
 const requests = axios.create({
@@ -41,7 +41,7 @@ requests.interceptors.response.use((res)=>{
     return res.data; // 直接返回数据
 },(error)=>{
     // 失败的回调函数
-    return Promise.reject(new Error('faile')); // 终止Promise链
+    return Promise.reject(new Error(error)); // 终止Promise链
 })
 
 export default requests

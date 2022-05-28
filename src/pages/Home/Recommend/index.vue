@@ -6,7 +6,7 @@
         <li class="clock">
           <div class="time">
             <img src="./images/clock.png" />
-            <h3>今日推荐</h3>
+            <h3>今日秒杀商品</h3>
           </div>
         </li>
         <li class="banner">
@@ -27,8 +27,24 @@
 </template>
 
 <script>
+import {reqSeckill} from "@/api";
+
 export default {
-    name:'Recommend'
+    name:'Recommend',
+  data(){
+      return{
+        kill:[]
+      }
+  },
+  mounted() {
+
+
+  },
+  methods:{
+      async getSec() {
+        this.kill=await reqSeckill()
+      }
+  }
 };
 </script>
 

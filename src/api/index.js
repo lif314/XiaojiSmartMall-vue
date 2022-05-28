@@ -153,4 +153,7 @@ export const reqOrderList = ()=>requests({
     method: 'get'
 })
 
-
+export const reqSeckill = ()=>requests({
+    url:'/seckill/currentSecKillSkus',
+    method: 'get'
+})
