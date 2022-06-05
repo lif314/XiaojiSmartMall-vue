@@ -12,8 +12,7 @@
             <router-link class="register" to="/register">免费注册</router-link>
           </p>
           <p v-else>
-<!--            <span>你好，{{ userInfo.nickname }}</span>-->
-            <span>你好，邵国诚</span>
+           <span>你好，{{ userInfo.nickname}}</span>
             <a class="register" @click="logout">退出登录</a>
           </p>
         </div>
