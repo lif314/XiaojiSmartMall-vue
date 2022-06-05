@@ -167,13 +167,13 @@ export default {
         orderToken: this.orderInfo.orderToken,
         note: this.msg
       }
-      // console.log('submitinfo:',data)
+      console.log('submitinfo:',data)
       let res = await reqSubmitOrder(traderNo, data);
-      console.log(res);
+      console.log('orderresponse:',res);
       if (res.code === 0) {
-        this.orderId = res.data; // 订单号
+        this.orderId = res.data.order.orderSn; // 订单号
         // 路由传参
-        this.$router.push("/pay/orderId=" + this.orderId);
+        this.$router.push("/pay/" + this.orderId);
       } else {
         console.log(res.data);
       }

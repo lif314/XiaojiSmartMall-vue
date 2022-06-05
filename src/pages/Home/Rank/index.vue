@@ -105,7 +105,7 @@ export default {
 <style scoped lang='less'>
 .rank {
   width: 1200px;
-  margin: 0 auto;
+  margin: 70px auto;
 
   .tab {
     margin: 0 auto;

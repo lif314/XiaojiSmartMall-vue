@@ -53,7 +53,11 @@ export const reqAddOrUpdateShopCart = (skuId, num) => requests({
     url: `/cart/addToCart/${skuId}/${num}`,
     method: 'get'
 })
-
+// 修改购物车中的产品数量
+export const reqNum = (skuId, num) => requests({
+    url: `/cart/countItem/?skuId=${skuId}&num=${num}`,
+    method: 'get'
+})
 
 //获取购物车中列表数据
 export const reqCartList = () => requests({
@@ -149,10 +153,11 @@ export const reqPayStatus = ({orderId})=>requests({
 
 // 获取订单的列表数据
 export const reqOrderList = ()=>requests({
-    url: '/order//memberOrder',
+    url: '/order/memberOrder',
     method: 'get'
 })
 
+// 获取秒杀商品数据
 export const reqSeckill = ()=>requests({
     url:'/seckill/currentSecKillSkus',
     method: 'get'

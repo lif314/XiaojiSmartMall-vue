@@ -95,6 +95,7 @@
 <script>
 import { mapGetters } from "vuex";
 import throttle from "lodash/throttle";
+import {reqNum} from "@/api";
 
 export default {
   name: "ShopCart",
@@ -168,7 +169,7 @@ export default {
     }, 20),
     // 更新购物车中商品数量
     //修改某一个产品的个数[节流]
-    handler: throttle(async function (type, disNum, cart) {
+    handler: throttle(async function (type, disNum, item) {
       //type:为了区分这三个元素
       //disNum形参:+ 变化量（1）  -变化量（-1）   input最终的个数（并不是变化量）
       //cart:哪一个产品【身上有id】
@@ -176,12 +177,12 @@ export default {
       switch (type) {
         //加号
         case "add":
-          disNum = 1;
+          disNum = item.count+1;
           break;
         case "minus":
           //判断产品的个数大于1，才可以传递给服务器-1
           //如果出现产品的个数小于等于1，传递给服务器个数0（原封不动）
-          disNum = cart.count > 1 ? -1 : 0;
+          disNum = item.count > 1 ? item.count-1 : 0;
           break;
         case "change":
           // //用户输入进来的最终量，如果非法的（带有汉字|出现负数），带给服务器数字零
@@ -190,21 +191,16 @@ export default {
             disNum = 0;
           } else {
             //属于正常情况（小数：取证），带给服务器变化的量 用户输入进来的 - 产品的起始个数
-            disNum = parseInt(disNum) - cart.count;
+            disNum = parseInt(disNum) ;
           }
           // disNum = (isNaN(disNum)||disNum<1)?0:parseInt(disNum) - cart.count;
           break;
       }
-      //派发action
-      try {
-        //代表的是修改成功
-        await this.$store.dispatch("addOrUpdateShopCart", {
-          skuId: cart.skuId,
-          count: disNum,
-        });
+      console.log(item.skuId, disNum)
+        reqNum(item.skuId, disNum)
         //再一次获取服务器最新的数据进行展示
         this.getData();
-      } catch (error) {}
+
     }, 50),
   },
 };

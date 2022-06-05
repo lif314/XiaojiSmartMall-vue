@@ -41,7 +41,7 @@
                 <div class="price">
                   <i>¥ </i>
                   <em>{{ skuInfo.price }}</em>
-                  <span> 降价通知</span>
+                  <span> 促销中</span>
                 </div>
                 <div class="remark">
                   <i>累计评价</i>
@@ -109,9 +109,7 @@
                   @change="changeSkuNum"
                 />
                 <a @click="skuNum++" class="plus">+</a>
-                <a @click="skuNum > 1 ? skuNum-- : (skuNum = 1)" class="mins"
-                  >-</a
-                >
+                <a @click="skuNum > 1 ? skuNum-- : (skuNum = 1)" class="mins">-</a>
               </div>
               <div class="add">
                 <!-- 路由跳转之前发送请求 -->
@@ -410,7 +408,7 @@ export default {
       // 返回数据在仓库中
       // action的返回值是一个Promise,即可以知道是否成功
       try{
-          await this.$store.dispatch('addOrUpdateShopCart', {skuId: this.skuInfo.skuId,skuNum: this.skuNum})
+          await this.$store.dispatch('addOrUpdateShopCart', {skuId: this.skuInfo.skuId, skuNum: this.skuNum})
           // 成功了，进行路由跳转
           // 将产品的信息带给下一级路由
           // 可以携带query参数: skuInfo也可以作为query参数带过去，但比较丑
@@ -419,8 +417,8 @@ export default {
           // localStorage: 持久化存储，上限5M
           // 路由之间参数传递：简单的数据可以使用query参数传递，复杂数据可以使用会话存储传递，浏览器关闭，数据丢失
           // 两种存储方式只能存储字符串，json数据
-          sessionStorage.setItem('SKUINFO', JSON.stringify(this.skuInfo))
-          sessionStorage.setItem('ATTRLIST', JSON.stringify({attrList:this.spuSaleAttrList}))
+          localStorage.setItem('SKUINFO', JSON.stringify(this.skuInfo))
+          localStorage.setItem('ATTRLIST', JSON.stringify({attrList:this.spuSaleAttrList}))
           this.$router.push({name:'addcartsuccess', query:{skuNum: this.skuNum}});
       }catch(error){
           console.log(error.message)

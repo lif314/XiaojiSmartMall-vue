@@ -196,7 +196,7 @@ export default {
           // 获取用户
           let res = await reqPayStatus({ orderId: this.payInfo.orderId });
           // console.log(res);
-          if (res.code == 200) {
+          if (res.code == 0) {
             // 清除定时器
             clearInterval(this.timer);
             this.timer = null;

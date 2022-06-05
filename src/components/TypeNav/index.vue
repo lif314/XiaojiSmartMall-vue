@@ -223,7 +223,8 @@ export default {
             margin: 0;
 
             a {
-              color: #333;
+              //color: #333;
+              color: #5c5251
             }
           }
 

@@ -6,13 +6,14 @@
       <div class="container">
         <div class="loginList">
           <p>小济智家欢迎您！</p>
-          <p v-if="!userInfo||userInfo==={}">
+          <p v-if="!logon">
             <span>请</span>
             <router-link to="/login">登录</router-link>
             <router-link class="register" to="/register">免费注册</router-link>
           </p>
           <p v-else>
-            <span>你好，{{ userInfo.nickname }}</span>
+<!--            <span>你好，{{ userInfo.nickname }}</span>-->
+            <span>你好，邵国诚</span>
             <a class="register" @click="logout">退出登录</a>
           </p>
         </div>
@@ -58,6 +59,8 @@
 </template>
 
 <script>
+import {mapGetters} from "vuex";
+
 export default {
   name: "Header",
   data() {
@@ -69,6 +72,9 @@ export default {
     userInfo() {
       return this.$store.state.user.userInfo
     },
+    logon(){
+      return window.localStorage.getItem('TOKEN')
+    }
   },
   mounted() {
     // 通过全局事件总线将keyword置空
@@ -89,7 +95,7 @@ export default {
       // 清除项目中的数据
       try {
         await this.$store.dispatch("logout");
-        this.$router.push("/home");
+        this.$router.push("/login");
       } catch (error) {
         console.log(error.message);
       }

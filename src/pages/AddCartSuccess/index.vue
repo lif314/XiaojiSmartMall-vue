@@ -54,8 +54,8 @@
     mounted() {
       // console.log('storeskuid ',window.localStorage.getItem('SKUID'))
         // 查询商品详情
-        if(window.localStorage.getItem('SKUID')){
-          this.$store.dispatch("getSkuInfo", window.localStorage.getItem('SKUID'))
+        if(window.localStorage.getItem('SKUINFO')){
+          this.$store.dispatch("getSkuInfo", window.localStorage.getItem('SKUINFO').skuId)
         }
 
     }

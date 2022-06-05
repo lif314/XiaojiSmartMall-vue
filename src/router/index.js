@@ -164,14 +164,14 @@ const router = new VueRouter({
             meta: {
                 isFooterShow: true
             },
-            beforeEnter:(to, from ,next)=>{
-                // 必须从确认订单页而来
-                if(from.path == '/pay'){
-                    next()
-                }else{
-                    next(false)
-                }
-            }
+            // beforeEnter:(to, from ,next)=>{
+            //     // 必须从确认订单页而来
+            //     if(from.path == '/pay'){
+            //         next()
+            //     }else{
+            //         next(false)
+            //     }
+            // }
         },
         {
             // 订单中心
